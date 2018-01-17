@@ -1,0 +1,13 @@
+# Output Folders and Files #
+/bin/
+/testbin/
+/dist/
+/build/
+*.class
+.classpath
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
