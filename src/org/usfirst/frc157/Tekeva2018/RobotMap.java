@@ -69,10 +69,10 @@ public class RobotMap {
         forkliftForksForkMotor = new WPI_TalonSRX(6);
         
         
-        forkliftForksOpenSwitch = new DigitalInput(7);
+        forkliftForksOpenSwitch = new DigitalInput(6);
         LiveWindow.addSensor("ForkliftForks", "OpenSwitch", forkliftForksOpenSwitch);
         
-        forkliftForksCloseSwitch = new DigitalInput(6);
+        forkliftForksCloseSwitch = new DigitalInput(7);
         LiveWindow.addSensor("ForkliftForks", "CloseSwitch", forkliftForksCloseSwitch);
         
         forkliftElevatorElevatorMotor = new WPI_TalonSRX(1);

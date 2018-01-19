@@ -43,6 +43,7 @@ public class ForkliftOpen extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        Robot.forkliftForks.Open();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -60,5 +61,6 @@ public class ForkliftOpen extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        Robot.forkliftForks.stop();
     }
 }
