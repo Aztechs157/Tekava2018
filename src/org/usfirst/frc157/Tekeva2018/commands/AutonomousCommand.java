@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc157.Tekeva2018.commands;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc157.Tekeva2018.Robot;
 
@@ -37,6 +38,8 @@ public class AutonomousCommand extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        String gameData = DriverStation.getInstance().getGameSpecificMessage();
+        System.out.println(gameData);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -43,6 +43,11 @@ public class DriveWithSticks extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        double x = Robot.drive.getAccelerometer()[0];
+        if (x < -0.1 || x > 0.1)
+        {
+            System.out.println(x);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
