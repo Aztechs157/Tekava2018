@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="C:/Users/USROBOT/wpilib/java/current/lib/wpiutil-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/USROBOT/wpilib/user/java/lib/CTRE_Phoenix.jar"/>
 	<classpathentry kind="lib" path="C:/Users/USROBOT/wpilib/user/java/lib/CTRE_Phoenix-sources.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/CANJaguar.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
 	<classpathentry kind="output" path="bin"/>
