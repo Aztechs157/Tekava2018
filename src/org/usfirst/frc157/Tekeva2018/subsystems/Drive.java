@@ -72,7 +72,7 @@ public class Drive extends Subsystem {
         count++;
         if (count==100)
         {
-            //System.out.println(numberFormat.format(potentiometer));
+            System.out.println(numberFormat.format(potentiometer));
             count=0;
         }
         double Rdrive = Robot.oi.getGamePadController().getRawAxis(Robot.oi.RStick);

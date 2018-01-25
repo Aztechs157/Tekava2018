@@ -8,12 +8,10 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc157.Tekeva2018.commands;
+import org.usfirst.frc157.Tekeva2018.commands.DriveWithSticks;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc157.Tekeva2018.commands.DriveSpeedForTime;
 import org.usfirst.frc157.Tekeva2018.Robot;
 import org.usfirst.frc157.Tekeva2018.RobotMap;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -63,8 +61,8 @@ public class AutonomousCommand extends CommandGroup
     protected void execute() 
     {
 
-       addSequential(new DriveSpeedForTime(0.6, 0.9, 3));
-       addParallel(new DriveSpeedForTime(0, 0, 3));
+       //addSequential(new DriveWithSticks(0.6, 0.9, 3));
+       //addParallel(new DriveWithSticks(0, 0, 3));
        
     }
 
