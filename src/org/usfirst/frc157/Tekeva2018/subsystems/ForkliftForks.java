@@ -54,7 +54,7 @@ public class ForkliftForks extends Subsystem {
         //System.out.println("opening");
         if (openSwitch.get())
         {
-            forkMotor.set(-0.8);
+            forkMotor.set(-1);
         }
         else
         {
@@ -67,7 +67,7 @@ public class ForkliftForks extends Subsystem {
         //System.out.println(closeSwitch.get());
         if (closeSwitch.get())
         {
-            forkMotor.set(0.8);
+            forkMotor.set(1);
         }
         else
         {

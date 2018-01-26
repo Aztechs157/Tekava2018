@@ -45,7 +45,10 @@ public class ForkLiftController extends Command {
     protected void execute() {
         double up = Robot.oi.getGamePadController().getRawAxis(Robot.oi.R2);
         double down = -Robot.oi.getGamePadController().getRawAxis(Robot.oi.L2);
+        double JoyChange = -Robot.oi.OpBox().getRawAxis(Robot.oi.JoyY);
+
         double change = up + down;
+        change += JoyChange;
         if (change > 0.01)
         {
             Robot.forkliftElevator.move(change, Robot.forkliftElevator.HIGH);
