@@ -78,29 +78,29 @@ public class Drive extends Subsystem {
             System.out.println(numberFormat.format(potentiometer));
             count=0;
         }
-        double RYdrive = Robot.oi.getGamePadController().getRawAxis(Robot.oi.RYStick) * potentiometer;
-
+        double left = Robot.oi.getGamePadController().getRawAxis(Robot.oi.RYStick) * potentiometer;
+        double right = -Robot.oi.getGamePadController().getRawAxis(Robot.oi.LYStick ) * potentiometer;
         if (!onestick)
         {
             if (AttackDrive)
             {
-                double Latk = -Robot.oi.getAttackL().getRawAxis(Robot.oi.Latk) * potentiometer;
-                double Ratk = Robot.oi.getAttackR().getRawAxis(Robot.oi.Ratk) * potentiometer;
+                double RatkPot = Robot.oi.getAttackR().getRawAxis(Robot.oi.RatkPot);
+                double Latk = -Robot.oi.getAttackL().getRawAxis(Robot.oi.Latk) * (RatkPot * potentiometer);
+                double Ratk = Robot.oi.getAttackR().getRawAxis(Robot.oi.Ratk) * (RatkPot * potentiometer);
                 driveLeft1.set(Latk);
                 driveRight1.set(Ratk);
             }
             else
             {
-            double Ldrive = -Robot.oi.getGamePadController().getRawAxis(Robot.oi.LYStick ) * potentiometer;
-            driveRight1.set(RYdrive); // Change to RDrive * potentiometer
-            driveLeft1.set(Ldrive); // Change to LDrive * potentiometer
+            driveRight1.set(left); // Change to RDrive * potentiometer
+            driveLeft1.set(right); // Change to LDrive * potentiometer
             }
         }
         if (onestick)
         {
             double RxDrive = Robot.oi.getGamePadController().getRawAxis(Robot.oi.RxStick) * potentiometer;
-            driveRight1.set((RYdrive + RxDrive));
-            driveLeft1.set((-RYdrive + RxDrive));
+            driveRight1.set((left + RxDrive));
+            driveLeft1.set((-left + RxDrive));
         }
 
     }
