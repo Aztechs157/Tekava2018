@@ -70,12 +70,11 @@ public class Drive extends Subsystem {
     }
     public void DriveRobot()
     {
-        DecimalFormat numberFormat = new DecimalFormat("0.00");
+        //DecimalFormat numberFormat = new DecimalFormat("0.00");
         double potentiometer = analogPotentiometer.get();
         count++;
         if (count==100)
         {
-            System.out.println(numberFormat.format(potentiometer));
             count=0;
         }
         double left = Robot.oi.getGamePadController().getRawAxis(Robot.oi.RYStick) * potentiometer;
