@@ -89,6 +89,11 @@ public class ForkliftElevator extends Subsystem {
         String retVal = "high switch: " + highSwitch.get() + "\nlow switch: " + lowSwitch.get();
         return retVal;
     }
+
+    public Boolean GetTop()
+    {
+        return highSwitch.get();
+    }
     public void stop()
     {
         elevatorMotor.stopMotor();
