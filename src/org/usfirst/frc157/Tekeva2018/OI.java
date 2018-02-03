@@ -9,13 +9,13 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc157.Tekeva2018;
+package src.org.usfirst.frc157.Tekeva2018;
 
-import org.usfirst.frc157.Tekeva2018.commands.*;
+import src.org.usfirst.frc157.Tekeva2018.commands.*; 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.*;
-import org.usfirst.frc157.Tekeva2018.subsystems.*;
+import src.org.usfirst.frc157.Tekeva2018.subsystems.*;
 
 
 /**

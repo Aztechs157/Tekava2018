@@ -1,7 +1,7 @@
-package org.usfirst.frc157.Tekeva2018.commands;
+package src.org.usfirst.frc157.Tekeva2018.commands;
 
-import org.usfirst.frc157.Tekeva2018.PID;
-import org.usfirst.frc157.Tekeva2018.Robot;
+import src.org.usfirst.frc157.Tekeva2018.PID;
+import src.org.usfirst.frc157.Tekeva2018.Robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Autonomous extends Command
 {
 
-    public enum autonState
+    public enum autonState 
     {
         driveForward, turnRight;
     }

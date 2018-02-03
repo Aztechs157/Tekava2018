@@ -9,10 +9,10 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc157.Tekeva2018.subsystems;
+package src.org.usfirst.frc157.Tekeva2018.subsystems;
 
-import org.usfirst.frc157.Tekeva2018.RobotMap;
-import org.usfirst.frc157.Tekeva2018.commands.*;
+import src.org.usfirst.frc157.Tekeva2018.RobotMap;
+import src.org.usfirst.frc157.Tekeva2018.commands.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;

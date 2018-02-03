@@ -9,9 +9,9 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc157.Tekeva2018.commands;
-import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc157.Tekeva2018.Robot;
+package src.org.usfirst.frc157.Tekeva2018.commands;
+import edu.wpi.first.wpilibj.command.Command ;
+import src.org.usfirst.frc157.Tekeva2018.Robot;
 
 /**
  *

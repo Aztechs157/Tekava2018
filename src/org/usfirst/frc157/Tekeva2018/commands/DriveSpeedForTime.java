@@ -9,13 +9,13 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc157.Tekeva2018.commands;
-import edu.wpi.first.wpilibj.Timer;
+package src.org.usfirst.frc157.Tekeva2018.commands;
+import edu.wpi.first.wpilibj.Timer; 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-import org.usfirst.frc157.Tekeva2018.Robot;
-import org.usfirst.frc157.Tekeva2018.RobotMap;
+import src.org.usfirst.frc157.Tekeva2018.Robot;
+import src.org.usfirst.frc157.Tekeva2018.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
