@@ -1,7 +1,7 @@
-package src.org.usfirst.frc157.Tekeva2018.commands;
+package org.usfirst.frc157.Tekeva2018.commands;
 
-import src.org.usfirst.frc157.Tekeva2018.PID;
-import src.org.usfirst.frc157.Tekeva2018.Robot;
+import org.usfirst.frc157.Tekeva2018.PID;
+import org.usfirst.frc157.Tekeva2018.Robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Timer;

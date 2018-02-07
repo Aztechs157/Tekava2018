@@ -1,4 +1,4 @@
-package src.org.usfirst.frc157.Tekeva2018;
+package org.usfirst.frc157.Tekeva2018;
 
 import edu.wpi.first.wpilibj.Timer;
 

@@ -9,17 +9,17 @@
 // it from being updated in the future.
 
 
-package src.org.usfirst.frc157.Tekeva2018;
+package org.usfirst.frc157.Tekeva2018;
 
-import edu.wpi.first.wpilibj.TimedRobot; 
+import edu.wpi.first.wpilibj.TimedRobot;  
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import src.org.usfirst.frc157.Tekeva2018.commands.*;
-import src.org.usfirst.frc157.Tekeva2018.subsystems.*;
+import org.usfirst.frc157.Tekeva2018.commands.*;
+import org.usfirst.frc157.Tekeva2018.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
