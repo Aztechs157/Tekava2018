@@ -55,7 +55,7 @@ public class Autogroup extends CommandGroup
                 System.out.println("MLL");
             //StartPos: 2 Scale: L Switch: L Alliance: B
             addParallel(new RaiseElevatorByPercent(0.5));
-            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!  
+            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 193, 193)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!  
             }
         }
 
@@ -63,14 +63,14 @@ public class Autogroup extends CommandGroup
         {
             //StartPos: 2 Scale: R Scale: R Alliance: B
             addParallel(new RaiseElevatorByPercent(0.5));
-            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!! 
+            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 193, 193)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!! 
         }
 
         if (getGameData == "LRL" || getGameData == "RRL")
         {
             //StartPos: 2 Scale: R Switch: L Alliance: B
             addParallel(new RaiseElevatorByPercent(0.5));
-            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!
+            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 193, 193)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!
             //addSequentaial(new OpenForks(0.50));
         }
 
@@ -78,7 +78,7 @@ public class Autogroup extends CommandGroup
         {
         //StartPos: 2 Scale: L Switch: R Alliance: B
         addParallel(new RaiseElevatorByPercent(0.5));
-        addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!
+        addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 193, 193)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!
         }
 
         addSequential(new DriveSpeedForDistance(-1*0.2, -1*0.2, 50, 50));
