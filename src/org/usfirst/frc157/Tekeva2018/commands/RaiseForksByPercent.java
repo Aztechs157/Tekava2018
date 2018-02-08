@@ -9,15 +9,15 @@
 // it from being updated in the future.
 
 
-package src.org.usfirst.frc157.Tekeva2018.commands;
-import edu.wpi.first.wpilibj.AnalogPotentiometer; 
+package org.usfirst.frc157.Tekeva2018.commands;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;  
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import src.org.usfirst.frc157.Tekeva2018.Robot;
-import src.org.usfirst.frc157.Tekeva2018.RobotMap;
-import src.org.usfirst.frc157.Tekeva2018.subsystems.ForkliftElevator.switches;
+import org.usfirst.frc157.Tekeva2018.Robot;
+import org.usfirst.frc157.Tekeva2018.RobotMap;
+import org.usfirst.frc157.Tekeva2018.subsystems.ForkliftElevator.switches;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 /**
