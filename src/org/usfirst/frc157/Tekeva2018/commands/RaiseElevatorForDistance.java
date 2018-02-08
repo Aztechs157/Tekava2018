@@ -63,7 +63,6 @@ public class RaiseElevatorForDistance extends Command
     @Override
     protected void execute()
     {
-        //System.out.println("meme");
         //Robot.drive.AutoDrive(leftSpeed, -1 * rightSpeed);
         double change = speed;
         if (change > 0.0)
@@ -78,9 +77,6 @@ public class RaiseElevatorForDistance extends Command
         {
             Robot.forkliftElevator.stop();
         }
-        
-        //Robot.forkliftElevator.AutoRaise(speed);
-        
      }
 
     // Make this return true when this Command no longer needs to run execute()
