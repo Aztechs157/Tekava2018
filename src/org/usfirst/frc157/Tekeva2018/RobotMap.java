@@ -60,6 +60,7 @@ public class RobotMap {
         gyroAnalogGyro1.setSensitivity(0.007);
         accel = new BuiltInAccelerometer(Accelerometer.Range.k4G);
         driveLeftQuad = new Encoder(1, 2, true, EncodingType.k4X);
+        forkEncoder = new Encoder (0, 5, true, EncodingType.k4X);
        // forkEncoder = new Encoder(3, EncodingType.k2X); //@TODO
         LiveWindow.addSensor("Drive", "LeftQuad", driveLeftQuad);
         driveLeftQuad.setDistancePerPulse(0.05); //0.05
