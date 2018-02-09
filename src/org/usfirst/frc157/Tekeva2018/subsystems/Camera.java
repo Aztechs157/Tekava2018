@@ -57,7 +57,7 @@ public class Camera extends Subsystem {
 
 
         
-            UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
+            //UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
 
 
             
