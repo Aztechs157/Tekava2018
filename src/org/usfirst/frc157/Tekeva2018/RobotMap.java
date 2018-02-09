@@ -61,6 +61,7 @@ public class RobotMap {
         accel = new BuiltInAccelerometer(Accelerometer.Range.k4G);
         driveLeftQuad = new Encoder(1, 2, true, EncodingType.k4X);
         forkEncoder = new Encoder (0, 5, true, EncodingType.k4X);
+        forkEncoder.setDistancePerPulse(0.01867676832);
        // forkEncoder = new Encoder(3, EncodingType.k2X); //@TODO
         LiveWindow.addSensor("Drive", "LeftQuad", driveLeftQuad);
         driveLeftQuad.setDistancePerPulse(0.05); //0.05

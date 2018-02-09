@@ -45,7 +45,7 @@ public class Autonomous extends Command
             case driveForward:
                 double encoder = -Robot.drive.getRightEncoder();
                 System.out.println("Encoder: " + encoder);
-                drivePower = drivePID.pidCalculate(2500, encoder);
+                drivePower = drivePID.pidCalculate(1200, encoder); // (Distance, encoder)
                 leftPower = drivePower - gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
                 leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
                 rightPower = drivePower + gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
