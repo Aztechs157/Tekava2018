@@ -56,6 +56,7 @@ public class Drive extends Subsystem {
     private final Accelerometer accel = RobotMap.accel;
     private final AnalogGyro gyro = RobotMap.gyroAnalogGyro1;
     private final AnalogPotentiometer analogPotentiometer = RobotMap.motorControllerTeAnalogPotentiometer;
+    private final AnalogPotentiometer potentiometer = RobotMap.autoSelect;
     @Override
     public void initDefaultCommand()
     {

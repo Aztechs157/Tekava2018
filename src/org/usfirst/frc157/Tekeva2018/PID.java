@@ -1,6 +1,7 @@
 package org.usfirst.frc157.Tekeva2018;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PID {
 	private double p;
@@ -24,6 +25,9 @@ public class PID {
 		lastTime = Timer.getFPGATimestamp();
 		lastValue = 0;
 		sigma = 0;
+        SmartDashboard.putNumber("P", this.p);
+        SmartDashboard.putNumber("I", this.i);
+        SmartDashboard.putNumber("D", this.d);
 	}
 	public double pidCalculate(double target, double value) {
 		double fDeltaTime = (double)(Timer.getFPGATimestamp() - lastTime) / 1000.0;

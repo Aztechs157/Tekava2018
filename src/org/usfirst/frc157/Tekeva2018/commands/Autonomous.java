@@ -25,6 +25,12 @@ public class Autonomous extends Command
     private double rightPower = 0;
     private double initAngle = 0;
     private int repsAtTarget = 0;
+    private double a = 0;
+    private double b = 0;
+    private double c = 0;
+    private double x = 0;
+    private double y = 0;
+    private double angle = 0;
 
     public Autonomous()
     {
@@ -44,13 +50,19 @@ public class Autonomous extends Command
 
             case driveForward:
                 double encoder = -Robot.drive.getRightEncoder();
-                System.out.println("Encoder: " + encoder);
-                drivePower = drivePID.pidCalculate(1200, encoder); // (Distance, encoder)
-                leftPower = drivePower - gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
+
+                drivePower = drivePID.pidCalculate(2500, encoder);
+
+                x = xEllipseCalculate(3000, 3000, encoder);
+                y = yEllipseCalculate(3000, 3000, x);
+                angle = angleEllipseCalculate(3000, 3000, x);
+
+                leftPower = drivePower - gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
                 leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
-                rightPower = drivePower + gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
+
+                rightPower = drivePower + gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
-                System.out.println("Left Power: " + leftPower + "\nRight Power: " + rightPower);
+
                 Robot.drive.AutoDrive(leftPower, rightPower);
                 if (Math.abs(encoder - 2500) < 3.0)
                 {
@@ -88,6 +100,80 @@ public class Autonomous extends Command
         }
     }
 
+    public double xCalculate(double a, double b, double distance) {
+		double sum = 0;
+		double curX = 0;
+		double calcSlice = 0;
+		double deltaX = 0.05;
+		while (Math.abs(sum-distance)>0.2) {
+			System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+			calcSlice = Math.sqrt(1+Math.pow(2*a*curX + b, 2))*deltaX;
+			sum+=(calcSlice);
+
+			curX+=deltaX;
+		}
+		System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+		return curX;
+	}
+    public double yCalculate(double a, double b, double c, double x) {
+        double y = a*Math.pow(x, 2) + b*x + c;
+        return y;
+    }
+    public double angleCalculate(double a, double b, double c, double x) {
+        double slope = 2*a*x+b;
+        double angle = Math.toDegrees(Math.atan(slope));
+        return angle;
+    }
+    public double xEllipseCalculate(double a, double b, double distance) {
+		double sum = 0;
+		double curX = 0;
+		double calcSlice = 0;
+		double deltaX = 0.01;
+		while (Math.abs(sum-distance)>0.01) {
+			System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+			calcSlice = Math.sqrt(1+Math.pow((-b*curX)/Math.sqrt(1-Math.pow(curX,2)/(a*a)),2))*deltaX;
+			sum+=(calcSlice);
+
+			curX+=deltaX;
+		}
+		System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+		return (curX > a)? a : curX;
+	}
+
+    public double yEllipseCalculate(double a, double b, double x) {
+        double y = Math.sqrt((a*a*b*b-b*b*x*x)/(a*a));
+        return y;
+    }
+    public double angleEllipseCalculate(double a, double b, double x) {
+		double slope = (-b*x)/Math.sqrt(1-Math.pow(x,2)/(a*a));
+		double angle = Math.toDegrees(Math.atan(slope));
+		return angle;
+	}
+    public double xSinCalculate(double a, double b, double distance) {
+		double sum = 0;
+		double curX = 0;
+		double calcSlice = 0;
+		double deltaX = 0.01;
+		while (Math.abs(sum-distance)>0.01) {
+			System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+			calcSlice = Math.sqrt(1+Math.pow(a*b*Math.acos(b*curX),2))*deltaX;
+			sum+=(calcSlice);
+
+			curX+=deltaX;
+		}
+		System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+		return (curX > a)? a : curX;
+	}
+
+    public double ySinCalculate(double a, double b, double x) {
+        double y = a*Math.sin(b*x);
+        return y;
+    }
+    public double angleSinCalculate(double a, double b, double x) {
+		double slope = a*b*Math.acos(b*x);
+		double angle = Math.toDegrees(Math.atan(slope));
+		return angle;
+	}
     @Override
     protected boolean isFinished()
     {
