@@ -31,6 +31,7 @@ public class Autonomous extends Command
     private double x = 0;
     private double y = 0;
     private double angle = 0;
+    private boolean finished;
 
     public Autonomous()
     {
@@ -53,14 +54,14 @@ public class Autonomous extends Command
 
                 drivePower = drivePID.pidCalculate(2500, encoder);
 
-                x = xEllipseCalculate(3000, 3000, encoder);
+            /*    x = xEllipseCalculate(3000, 3000, encoder);
                 y = yEllipseCalculate(3000, 3000, x);
                 angle = angleEllipseCalculate(3000, 3000, x);
-
-                leftPower = drivePower - gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
+*/
+                leftPower = drivePower - gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
                 leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
 
-                rightPower = drivePower + gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
+                rightPower = drivePower + gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
@@ -174,11 +175,29 @@ public class Autonomous extends Command
 		double angle = Math.toDegrees(Math.atan(slope));
 		return angle;
 	}
+
+
+    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
-        return false;
+
+        finished = true;
+        return finished;
+    }
+    // Called once after isFinished returns true
+    @Override
+    protected void end()
+    {
+
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted()
+    {
+
     }
 
 }
