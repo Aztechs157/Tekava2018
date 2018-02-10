@@ -13,6 +13,7 @@ package org.usfirst.frc157.Tekeva2018.subsystems;
 
 import org.usfirst.frc157.Tekeva2018.RobotMap;
 import org.usfirst.frc157.Tekeva2018.commands.*;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -86,9 +87,10 @@ public class ForkliftElevator extends Subsystem {
             elevatorMotor.set(0.0);
         }
     }
+
     public String debugPrint()
     {
-        String retVal = "high switch: " + highSwitch.get() + "\nlow switch: " + lowSwitch.get();
+        String retVal = "high switch: " + highSwitch.get() + "\nlow switch: " + lowSwitch.get() + "\nEncoder: " + getEncoder();
         return retVal;
     }
     public void AutoRaise(double speed)

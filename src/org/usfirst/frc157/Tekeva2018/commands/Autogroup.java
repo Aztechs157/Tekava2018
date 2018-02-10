@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc157.Tekeva2018.Robot;
 import org.usfirst.frc157.Tekeva2018.RobotMap;
+import org.usfirst.frc157.Tekeva2018.OI.ElvPos;
 import org.usfirst.frc157.Tekeva2018.subsystems.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -29,6 +30,8 @@ public class Autogroup extends CommandGroup
 
     public String getGameData;
     private double startPos = 7.75;
+    private double ground = startPos;
+    private double maxExtenstion = 105;
     private double switchHeight = 18.75-startPos;
     private double scaleLow = (4*12)-startPos;
     private double scaleMed = (5*12)-startPos;
@@ -41,7 +44,7 @@ public class Autogroup extends CommandGroup
         getGameData = DriverStation.getInstance().getGameSpecificMessage();
         System.out.println(getGameData);
 
-        //addSequential(new RaiseElevatorForDistance(1, 1));
+        addSequential(new RaiseElevatorToPoistion(ElvPos.SWITCH));
         if (getGameData == "LLL"|| getGameData == "Rll")
         {
             // StartPos: 1 Scale: L Switch: L Alliance: B
@@ -61,7 +64,7 @@ public class Autogroup extends CommandGroup
                 System.out.println("MLL");
             //StartPos: 2 Scale: L Switch: L Alliance: B
             addParallel(new RaiseElevatorByPercent(0.5));
-            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!  
+            addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!
             }
         }
 
