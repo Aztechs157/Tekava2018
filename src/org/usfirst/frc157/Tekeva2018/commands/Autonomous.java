@@ -31,7 +31,6 @@ public class Autonomous extends Command
     private double x = 0;
     private double y = 0;
     private double angle = 0;
-    private boolean finished;
 
     public Autonomous()
     {
@@ -39,8 +38,9 @@ public class Autonomous extends Command
         startTime = Timer.getFPGATimestamp();
         state = autonState.driveForward;
         drivePID = new PID(0.16, 0, 0.000005, 999999, 99999, 999999, 9999999);
-        gyroDrivePID = new PID(0.05, 0, 0, 999999, 99999, 999999, 9999999);
+        gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         gyroPID = new PID(0.01, 0, 0.000002, 9999999, 9999999, 9999999, 999999);
+        System.out.println("I got called");
     }
 
     @Override
@@ -50,18 +50,23 @@ public class Autonomous extends Command
         {
 
             case driveForward:
-                double encoder = -Robot.drive.getRightEncoder();
+                double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
 
-                drivePower = drivePID.pidCalculate(2500, encoder);
+                drivePower = drivePID.pidCalculate(999999, encoder);
 
-            /*    x = xEllipseCalculate(3000, 3000, encoder);
-                y = yEllipseCalculate(3000, 3000, x);
-                angle = angleEllipseCalculate(3000, 3000, x);
-*/
-                leftPower = drivePower - gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
+               /* x = xEllipseCalculate(180,180, encoder);
+                y = yEllipseCalculate(180,180, x);
+                angle = angleEllipseCalculate(180,180, x);*/
+                x = xSinCalculate(96,1/96.0, encoder);
+                y = ySinCalculate(96,1/96.0, x);
+                angle = angleSinCalculate(96,1/96.0, x);
+                System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
+                System.out.println("\nEncoder: " + encoder + "\nGyro: " + Robot.drive.getAngle() + "\nAngle: " + angle);
+
+                leftPower = drivePower - gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
                 leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
 
-                rightPower = drivePower + gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
+                rightPower = drivePower + gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
@@ -107,13 +112,13 @@ public class Autonomous extends Command
 		double calcSlice = 0;
 		double deltaX = 0.05;
 		while (Math.abs(sum-distance)>0.2) {
-			System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+			//System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
 			calcSlice = Math.sqrt(1+Math.pow(2*a*curX + b, 2))*deltaX;
 			sum+=(calcSlice);
 
 			curX+=deltaX;
 		}
-		System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+		//System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
 		return curX;
 	}
     public double yCalculate(double a, double b, double c, double x) {
@@ -126,27 +131,39 @@ public class Autonomous extends Command
         return angle;
     }
     public double xEllipseCalculate(double a, double b, double distance) {
+		double origA = a;
+		b = b / a;
+		distance = distance / a;
+		a = 1;
 		double sum = 0;
 		double curX = 0;
 		double calcSlice = 0;
-		double deltaX = 0.01;
-		while (Math.abs(sum-distance)>0.01) {
-			System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
-			calcSlice = Math.sqrt(1+Math.pow((-b*curX)/Math.sqrt(1-Math.pow(curX,2)/(a*a)),2))*deltaX;
-			sum+=(calcSlice);
+		double deltaX = 0.001;
+		while (Math.abs(sum - distance) > 0.001) {
+			// System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+			calcSlice = Math.sqrt(1 + Math.pow(-curX/(a*Math.sqrt(a*a-curX*curX)), 2)) * deltaX;
+			sum += (calcSlice);
 
-			curX+=deltaX;
+			curX += deltaX;
 		}
-		System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
-		return (curX > a)? a : curX;
+		// System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+		return (curX > a) ? a*origA : curX*origA;
 	}
 
-    public double yEllipseCalculate(double a, double b, double x) {
-        double y = Math.sqrt((a*a*b*b-b*b*x*x)/(a*a));
-        return y;
-    }
-    public double angleEllipseCalculate(double a, double b, double x) {
-		double slope = (-b*x)/Math.sqrt(1-Math.pow(x,2)/(a*a));
+	public double yEllipseCalculate(double a, double b, double x) {
+		double origA = a;
+		b = b / a;
+		x = x / a;
+		a = 1;
+		double y = Math.sqrt((a * a * b * b - b * b * x * x) / (a * a));
+		return origA*y;
+	}
+
+	public double angleEllipseCalculate(double a, double b, double x) {
+		b = b / a;
+		x = x / a;
+		a = 1;
+		double slope = -x/(a*Math.sqrt(a*a-x*x));
 		double angle = Math.toDegrees(Math.atan(slope));
 		return angle;
 	}
@@ -154,15 +171,15 @@ public class Autonomous extends Command
 		double sum = 0;
 		double curX = 0;
 		double calcSlice = 0;
-		double deltaX = 0.01;
+		double deltaX = 0.001;
 		while (Math.abs(sum-distance)>0.01) {
-			System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+			//System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
 			calcSlice = Math.sqrt(1+Math.pow(a*b*Math.acos(b*curX),2))*deltaX;
 			sum+=(calcSlice);
 
 			curX+=deltaX;
 		}
-		System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
+		//System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
 		return (curX > a)? a : curX;
 	}
 
@@ -175,29 +192,11 @@ public class Autonomous extends Command
 		double angle = Math.toDegrees(Math.atan(slope));
 		return angle;
 	}
-
-
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished()
     {
-
-        finished = true;
-        return finished;
-    }
-    // Called once after isFinished returns true
-    @Override
-    protected void end()
-    {
-
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
-    protected void interrupted()
-    {
-
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }
