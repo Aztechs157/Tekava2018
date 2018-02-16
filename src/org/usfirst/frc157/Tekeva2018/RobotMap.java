@@ -67,11 +67,11 @@ public class RobotMap {
         LiveWindow.addSensor("forklift", "encoder", forkEncoder);
        // forkEncoder = new Encoder(3, EncodingType.k2X); //@TODO
         LiveWindow.addSensor("Drive", "LeftQuad", driveLeftQuad);
-        driveLeftQuad.setDistancePerPulse(0.05); //0.05
+        driveLeftQuad.setDistancePerPulse(1); //0.05
         driveLeftQuad.setPIDSourceType(PIDSourceType.kRate);
         driveRightQuad = new Encoder(3, 4, false, EncodingType.k4X);
         LiveWindow.addSensor("Drive", "RightQuad", driveRightQuad);
-        driveRightQuad.setDistancePerPulse(0.05); //encoder value
+        driveRightQuad.setDistancePerPulse(1); //encoder value
         driveRightQuad.setPIDSourceType(PIDSourceType.kRate);
         driveDriveLeft1 = new WPI_TalonSRX(9);
         
@@ -93,11 +93,10 @@ public class RobotMap {
         
         forkliftForksCloseSwitch = new DigitalInput(6);
         LiveWindow.addSensor("ForkliftForks", "CloseSwitch", forkliftForksCloseSwitch);
-        
+
         ElevatorMotor = new WPI_TalonSRX(1);
         
         OpticalSwitch = new DigitalInput(0); //TODO CHANGE 9 TO DIO ON NEW ROBOT
-        
         forkliftElevatorHighSwitch = new DigitalInput(9);
         LiveWindow.addSensor("ForkliftElevator", "HighSwitch", forkliftElevatorHighSwitch);
         

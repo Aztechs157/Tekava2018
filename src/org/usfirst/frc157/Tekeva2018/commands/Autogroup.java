@@ -43,7 +43,8 @@ public class Autogroup extends CommandGroup
 
         getGameData = DriverStation.getInstance().getGameSpecificMessage();
         System.out.println(getGameData);
-
+        System.out.println("AutoGroup called");
+/*
         addSequential(new RaiseElevatorToPoistion(ElvPos.SWITCH));
         if (getGameData == "LLL"|| getGameData == "Rll")
         {
@@ -89,7 +90,7 @@ public class Autogroup extends CommandGroup
         addParallel(new RaiseElevatorByPercent(0.5));
         addSequential(new DriveSpeedForDistance(-1*0.4, -1*0.4, 124.5, 124.5)); //TODO CHANGE 0.4, 0.4 TO AROUND 1 FOR COMP!!!
         }
-
+        */
         //addSequential(new DriveSpeedForDistance(-1*0.2, -1*0.2, 50, 50));
         addSequential(new Autonomous());
         //addParallel(new RaiseElevatorByPercent(-1*0.5));
