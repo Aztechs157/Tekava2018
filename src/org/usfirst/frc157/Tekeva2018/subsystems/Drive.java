@@ -83,7 +83,7 @@ public class Drive extends Subsystem {
     public void DriveRobot()
     {
         //DecimalFormat numberFormat = new DecimalFormat("0.00");
-        double potentiometer = analogPotentiometer.get();
+        double potentiometer = .5; //analogPotentiometer.get();
         count++;
         if (count==100)
         {
