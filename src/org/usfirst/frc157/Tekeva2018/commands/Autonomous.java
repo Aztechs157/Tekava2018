@@ -201,6 +201,7 @@ public class Autonomous extends Command
     public double angleSinCalculate(double a, double b, double x) {
 		double slope = a*b*Math.acos(b*x);
 		double angle = Math.toDegrees(Math.atan(slope));
+		angle = ((angle>=0)? 1: -1)*(Math.abs(angle)+90*(quadrant-1));
 		return angle;
 	}
     @Override
