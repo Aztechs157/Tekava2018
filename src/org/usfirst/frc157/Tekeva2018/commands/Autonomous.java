@@ -25,6 +25,7 @@ public class Autonomous extends Command
     private double rightPower = 0;
     private double initAngle = 0;
     private int repsAtTarget = 0;
+    private int quadrant = 0;
     private double a = 0;
     private double b = 0;
     private double c = 0;
@@ -52,14 +53,14 @@ public class Autonomous extends Command
             case driveForward:
                 double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
 
-                drivePower = drivePID.pidCalculate(999999, encoder);
+                drivePower = drivePID.pidCalculate(565, encoder);
 
-               /* x = xEllipseCalculate(180,180, encoder);
+                x = xEllipseCalculate(180,180, encoder);
                 y = yEllipseCalculate(180,180, x);
-                angle = angleEllipseCalculate(180,180, x);*/
-                x = xSinCalculate(96,1/96.0, encoder);
+                angle = angleEllipseCalculate(180,180, x);
+               /* x = xSinCalculate(96,1/96.0, encoder);
                 y = ySinCalculate(96,1/96.0, x);
-                angle = angleSinCalculate(96,1/96.0, x);
+                angle = angleSinCalculate(96,1/96.0, x);*/
                 System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
                 System.out.println("\nEncoder: " + encoder + "\nGyro: " + Robot.drive.getAngle() + "\nAngle: " + angle);
 
@@ -131,6 +132,14 @@ public class Autonomous extends Command
         return angle;
     }
     public double xEllipseCalculate(double a, double b, double distance) {
+    	double semiperimeter = Math.PI*Math.sqrt((a*a+b*b)/2)/2.0;
+		quadrant = (int)(distance/semiperimeter)+1;
+		System.out.println(quadrant);
+		distance = distance-((quadrant-1)*semiperimeter);
+		if (quadrant == 2||quadrant == 4) {
+			distance = semiperimeter-distance;
+		}
+		System.out.println(distance);
 		double origA = a;
 		b = b / a;
 		distance = distance / a;
@@ -147,7 +156,8 @@ public class Autonomous extends Command
 			curX += deltaX;
 		}
 		// System.out.println(calcSlice + "\t\t " + sum + "\t\t" + curX);
-		return (curX > a) ? a*origA : curX*origA;
+		double returnVal = (curX > a) ? a*origA : curX*origA;
+		return (quadrant == 3||quadrant == 4)? -returnVal: returnVal;
 	}
 
 	public double yEllipseCalculate(double a, double b, double x) {
@@ -160,11 +170,12 @@ public class Autonomous extends Command
 	}
 
 	public double angleEllipseCalculate(double a, double b, double x) {
+		x = Math.abs(x);
 		b = b / a;
 		x = x / a;
 		a = 1;
 		double slope = -x/(a*Math.sqrt(a*a-x*x));
-		double angle = Math.toDegrees(Math.atan(slope));
+		double angle = ((quadrant==1||quadrant==3)? 1:-1)*Math.toDegrees(Math.atan(slope));
 		return angle;
 	}
     public double xSinCalculate(double a, double b, double distance) {
