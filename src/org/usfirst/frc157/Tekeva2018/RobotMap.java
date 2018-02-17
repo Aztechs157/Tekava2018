@@ -73,10 +73,10 @@ public class RobotMap {
         LiveWindow.addSensor("Drive", "RightQuad", driveRightQuad);
         driveRightQuad.setDistancePerPulse(1); //encoder value
         driveRightQuad.setPIDSourceType(PIDSourceType.kRate);
-        driveDriveLeft1 = new WPI_TalonSRX(9);
+        driveDriveLeft1 = new WPI_TalonSRX(11);
         
         
-        driveDriveLeft2 = new WPI_TalonSRX(10);
+        driveDriveLeft2 = new WPI_TalonSRX(9);
         
         
         driveDriveRight1 = new WPI_TalonSRX(2);
