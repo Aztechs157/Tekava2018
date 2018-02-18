@@ -71,10 +71,10 @@ public class RobotMap {
 
         // Wheel Encoder Pins
         driveLeftQuad = new Encoder(1, 2, true, EncodingType.k4X);
-        driveLeftQuad.setDistancePerPulse(1); // (0.5) for in.
+        driveLeftQuad.setDistancePerPulse(0.05); // (0.5) for in.
         driveLeftQuad.setPIDSourceType(PIDSourceType.kRate);
         driveRightQuad = new Encoder(3, 4, false, EncodingType.k4X);
-        driveRightQuad.setDistancePerPulse(1); // (0.5) for in.s
+        driveRightQuad.setDistancePerPulse(0.05); // (0.5) for in.s
         driveRightQuad.setPIDSourceType(PIDSourceType.kRate);
 
         // Fork Encoder Pins
