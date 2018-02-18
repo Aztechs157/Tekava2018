@@ -1,4 +1,4 @@
-package org.usfirst.frc157.Tekeva2018.commands;
+package org.usfirst.frc157.Tekeva2018.subsystems;
 
 public class Point {
 	private double x; 

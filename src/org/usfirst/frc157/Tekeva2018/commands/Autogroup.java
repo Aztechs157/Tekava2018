@@ -94,7 +94,7 @@ public class Autogroup extends CommandGroup
         }
         */
         //addSequential(new DriveSpeedForDistance(-1*0.2, -1*0.2, 50, 50));
-        addSequential(new Autonomous());
+        addSequential(new AutonMode0());
         //addParallel(new RaiseElevatorByPercent(-1*0.5));
 
 

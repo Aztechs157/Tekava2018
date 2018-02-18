@@ -7,12 +7,12 @@ import org.usfirst.frc157.Tekeva2018.subsystems.PathManager;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Autonomous extends Command
+public class AutonMode0 extends Command
 {
 
     public enum autonState 
     {
-        driveArc, turnRight, turnLeft, driveForward10;
+        driveArc1, driveBack5, turnRight90, driveArc2;
     }
 
     private double startTime;
@@ -37,12 +37,14 @@ public class Autonomous extends Command
     private  PathManager pathManager;
     private boolean pathOpen = false;
     private boolean autonFinished = false;
+    private int ellipseX;
+    private int ellipseY;
     
-    public Autonomous()
+    public AutonMode0()
     {
         requires(Robot.drive);
         startTime = Timer.getFPGATimestamp();
-        state = autonState.driveForward10;
+        state = autonState.driveArc1;
         drivePID = new PID(0.16, 0, 0.000005, 999999, 99999, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         gyroPID = new PID(0.03, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
@@ -65,14 +67,15 @@ public class Autonomous extends Command
     	switch (state)
         {
 
-            case driveArc:
-                double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = 565;
+            case driveArc1:
+                encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+                target = 280;
                 drivePower = drivePID.pidCalculate(target, encoder);
-
-                x = xEllipseCalculate(180,180, encoder);
-                y = yEllipseCalculate(180,180, x);
-                angle = angleEllipseCalculate(180,180, x);
+                ellipseX = 276;
+                ellipseY = 30;
+                x = xEllipseCalculate(ellipseX, ellipseY, encoder);
+                y = yEllipseCalculate(ellipseX, ellipseY, x);
+                angle = -angleEllipseCalculate(ellipseX, ellipseY, x);
                 /*x = xSinCalculate(48,1/48.0, encoder);
                 y = ySinCalculate(48,1/48.0, x);
                 angle = angleSinCalculate(48,1/48.0, x);*/
@@ -91,7 +94,7 @@ public class Autonomous extends Command
                     repsAtTarget++;
                     if (repsAtTarget >= 5)
                     {
-                        state = autonState.turnRight;
+                        state = autonState.driveBack5;
                         repsAtTarget = 0;
                     }
                 }
@@ -100,8 +103,43 @@ public class Autonomous extends Command
                     repsAtTarget = 0;
                 }
                 break;
+            case driveArc2:
+                double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+                target = 280;
+                drivePower = drivePID.pidCalculate(target, encoder);
+                ellipseX = 60;
+                ellipseY = 60;
+                x = xEllipseCalculate(ellipseX, ellipseY, encoder);
+                y = yEllipseCalculate(ellipseX, ellipseY, x);
+                angle = -angleEllipseCalculate(ellipseX, ellipseY, x);
+                /*x = xSinCalculate(48,1/48.0, encoder);
+                y = ySinCalculate(48,1/48.0, x);
+                angle = angleSinCalculate(48,1/48.0, x);*/
+                System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
+                System.out.println("\nEncoder: " + encoder + "\nGyro: " + Robot.drive.getAngle() + "\nAngle: " + angle);
 
-            case turnRight:
+                leftPower = drivePower - gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
+                leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
+
+                rightPower = drivePower + gyroDrivePID.pidCalculate(angle + initAngle, Robot.drive.getAngle());
+                rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
+
+                Robot.drive.AutoDrive(leftPower, rightPower);
+                if (Math.abs(encoder - target) < 3.0)
+                {
+                    repsAtTarget++;
+                    if (repsAtTarget >= 5)
+                    {
+                        state = autonState.driveBack5;
+                        repsAtTarget = 0;
+                    }
+                }
+                else
+                {
+                    repsAtTarget = 0;
+                }
+                break;
+            case turnRight90:
                 drivePower = gyroPID.pidCalculate(90, Robot.drive.getAngle());
                 System.out.println("Angle: " + Robot.drive.getAngle() + "\nPower: " + drivePower);
                 Robot.drive.AutoDrive(-drivePower, drivePower);
@@ -113,7 +151,7 @@ public class Autonomous extends Command
                     	initAngle = Robot.drive.getAngle();
                     	Robot.drive.resetLeftEncoder();
                     	Robot.drive.resetRightEncoder();
-                        state = autonState.driveForward10;
+                        state = autonState.driveArc2;
                     }
                 }
                 else
@@ -121,27 +159,11 @@ public class Autonomous extends Command
                     repsAtTarget = 0;
                 }
                 break;
-            case turnLeft:
-            	drivePower = gyroPID.pidCalculate(-90, Robot.drive.getAngle());
-                System.out.println("Angle: " + Robot.drive.getAngle() + "\nPower: " + drivePower);
-                Robot.drive.AutoDrive(-drivePower, drivePower);
-                if (Math.abs(Robot.drive.getAngle() + 90) < 2.0)
-                {
-                    repsAtTarget++;
-                    if (repsAtTarget >= 10)
-                    {
-                        state = autonState.turnRight;
-                    }
-                }
-                else
-                {
-                    repsAtTarget = 0;
-                }
-                break;
+ 
 
-            case driveForward10:
+            case driveBack5:
             	encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = 120;
+                target = -60;
                 drivePower = drivePID.pidCalculate(target, encoder);
                 
                 System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
