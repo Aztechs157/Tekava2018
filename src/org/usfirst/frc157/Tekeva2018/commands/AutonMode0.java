@@ -12,7 +12,7 @@ public class AutonMode0 extends Command
 
     public enum autonState 
     {
-        driveArc1, driveBack5, turnRight90, driveArc2;
+        driveArc1, wait1000Msec1, driveBack3, wait1000Msec2, turnRight90, driveArc2;
     }
 
     private double startTime;
@@ -45,7 +45,7 @@ public class AutonMode0 extends Command
         requires(Robot.drive);
         startTime = Timer.getFPGATimestamp();
         state = autonState.driveArc1;
-        drivePID = new PID(0.16, 0, 0.000005, 999999, 99999, 999999, 9999999);
+        drivePID = new PID(0.16, 0, 0.000007, 999999, 99999, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         gyroPID = new PID(0.03, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
         System.out.println("I got called"); 
@@ -69,9 +69,9 @@ public class AutonMode0 extends Command
 
             case driveArc1:
                 encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = 280;
+                target = 265;
                 drivePower = drivePID.pidCalculate(target, encoder);
-                ellipseX = 276;
+                ellipseX = 570;
                 ellipseY = 30;
                 x = xEllipseCalculate(ellipseX, ellipseY, encoder);
                 y = yEllipseCalculate(ellipseX, ellipseY, x);
@@ -89,13 +89,14 @@ public class AutonMode0 extends Command
                 rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
 
                 Robot.drive.AutoDrive(leftPower, rightPower);
-                if (Math.abs(encoder - target) < 3.0)
+                if (Math.abs(encoder - target) < 5.0)
                 {
                     repsAtTarget++;
                     if (repsAtTarget >= 5)
                     {
-                        state = autonState.driveBack5;
-                        repsAtTarget = 0;
+                    	reset();
+                        state = autonState.wait1000Msec1;
+                        System.out.println("broken 1");
                     }
                 }
                 else
@@ -105,10 +106,10 @@ public class AutonMode0 extends Command
                 break;
             case driveArc2:
                 double encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = 280;
+                target = 55;
                 drivePower = drivePID.pidCalculate(target, encoder);
-                ellipseX = 60;
-                ellipseY = 60;
+                ellipseX = 8;
+                ellipseY = 54;
                 x = xEllipseCalculate(ellipseX, ellipseY, encoder);
                 y = yEllipseCalculate(ellipseX, ellipseY, x);
                 angle = -angleEllipseCalculate(ellipseX, ellipseY, x);
@@ -130,7 +131,8 @@ public class AutonMode0 extends Command
                     repsAtTarget++;
                     if (repsAtTarget >= 5)
                     {
-                        state = autonState.driveBack5;
+
+                    	autonFinished = true;
                         repsAtTarget = 0;
                     }
                 }
@@ -148,9 +150,7 @@ public class AutonMode0 extends Command
                     repsAtTarget++;
                     if (repsAtTarget >= 10)
                     {	
-                    	initAngle = Robot.drive.getAngle();
-                    	Robot.drive.resetLeftEncoder();
-                    	Robot.drive.resetRightEncoder();
+                    	reset();
                         state = autonState.driveArc2;
                     }
                 }
@@ -161,9 +161,10 @@ public class AutonMode0 extends Command
                 break;
  
 
-            case driveBack5:
+            case driveBack3:
+        		System.out.println("driveBack3 called");
             	encoder = -(Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
-                target = -60;
+                target = -25;
                 drivePower = drivePID.pidCalculate(target, encoder);
                 
                 System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
@@ -181,8 +182,9 @@ public class AutonMode0 extends Command
                     repsAtTarget++;
                     if (repsAtTarget >= 5)
                     {
-                    	autonFinished = true;
-                        repsAtTarget = 0;
+                    	reset();
+                    	state = autonState.wait1000Msec2;
+                		System.out.println("moving to wait1000Msec2");
                     }
                 }
                 else
@@ -190,6 +192,26 @@ public class AutonMode0 extends Command
                     repsAtTarget = 0;
                 }
                 break;
+            case wait1000Msec1:
+            	System.out.println("wait1000Msec1");
+            	repsAtTarget++;
+            	System.out.println(repsAtTarget);
+            	if(repsAtTarget>=100) {
+            		state = autonState.driveBack3;
+            		System.out.println("moving to driveBack3");
+            		repsAtTarget = 0;
+            	}
+            	break;
+            case wait1000Msec2:
+        		System.out.println("wait1000Msec2 called");
+            	repsAtTarget++;
+            	System.out.println(repsAtTarget);
+            	if(repsAtTarget>=100) {
+            		state = autonState.turnRight90;
+            		System.out.println("moving to turnRight90");
+            		repsAtTarget = 0;
+            	}
+            	break;
         }
     }
 
@@ -299,5 +321,11 @@ public class AutonMode0 extends Command
         // TODO Auto-generated method stub
         return autonFinished;
     }
-
+    public void reset() {
+    	 Robot.drive.AutoDrive(0,0);
+         Robot.drive.resetLeftEncoder();
+     	 Robot.drive.resetRightEncoder();
+         repsAtTarget = 0;
+         initAngle = Robot.drive.getAngle();
+    }
 }
