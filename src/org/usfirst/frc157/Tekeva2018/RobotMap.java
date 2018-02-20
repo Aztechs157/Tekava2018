@@ -73,6 +73,7 @@ public class RobotMap {
         driveLeftQuad = new Encoder(1, 2, true, EncodingType.k4X);
         driveLeftQuad.setDistancePerPulse(0.05); // (0.5) for in.
         driveLeftQuad.setPIDSourceType(PIDSourceType.kRate);
+        
         driveRightQuad = new Encoder(3, 4, false, EncodingType.k4X);
         driveRightQuad.setDistancePerPulse(0.05); // (0.5) for in.s
         driveRightQuad.setPIDSourceType(PIDSourceType.kRate);
@@ -82,12 +83,12 @@ public class RobotMap {
         forkEncoder.setDistancePerPulse(0.03735353664); // (0.01867676832) For in.
 
         // Set Talon IDS
-        driveDriveLeft1 = new WPI_TalonSRX(11);
+        driveDriveLeft1 = new WPI_TalonSRX(8);
         driveDriveLeft2 = new WPI_TalonSRX(9);
-        driveDriveRight1 = new WPI_TalonSRX(2);
-        driveDriveRight2 = new WPI_TalonSRX(3);
-        forkliftForksForkMotor = new WPI_TalonSRX(6);
-        ElevatorMotor = new WPI_TalonSRX(1);
+        driveDriveRight1 = new WPI_TalonSRX(1);
+        driveDriveRight2 = new WPI_TalonSRX(2);
+        forkliftForksForkMotor = new WPI_TalonSRX(7);
+        ElevatorMotor = new WPI_TalonSRX(5);
 
         // Set DIO IDS
         OpticalSwitch = new DigitalInput(0); //TODO CHANGE 9 TO DIO ON NEW ROBOT
