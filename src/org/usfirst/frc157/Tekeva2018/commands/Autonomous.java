@@ -2,6 +2,7 @@ package org.usfirst.frc157.Tekeva2018.commands;
 
 import org.usfirst.frc157.Tekeva2018.PID;
 import org.usfirst.frc157.Tekeva2018.Robot;
+import org.usfirst.frc157.Tekeva2018.SlewRate;
 import org.usfirst.frc157.Tekeva2018.subsystems.PathManager;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -12,7 +13,7 @@ public class Autonomous extends Command
 
     public enum autonState 
     {
-        driveArc, turnRight, turnLeft, driveForward10;
+        driveArc, turnRight, turnLeft, driveForward10, driveBack3;
     }
 
     private double startTime;
@@ -37,16 +38,21 @@ public class Autonomous extends Command
     private  PathManager pathManager;
     private boolean pathOpen = false;
     private boolean autonFinished = false;
+    private boolean slewCut;
+    private SlewRate slewRate;
     
     public Autonomous()
     {
         requires(Robot.drive);
         startTime = Timer.getFPGATimestamp();
-        state = autonState.driveForward10;
+        state = autonState.driveBack3;
         drivePID = new PID(0.16, 0, 0.000005, 999999, 99999, 999999, 9999999);
         gyroDrivePID = new PID(0.01, 0, 0.000001, 999999, 99999, 999999, 9999999);
         gyroPID = new PID(0.03, 0, 0.000003, 9999999, 9999999, 9999999, 999999);
         System.out.println("I got called"); 
+        slewRate = new SlewRate(0.001);
+        slewCut = false;
+        
        /* try {
         	pathManager = new PathManager();
         	pathOpen = true;
@@ -168,6 +174,40 @@ public class Autonomous extends Command
                     repsAtTarget = 0;
                 }
                 break;
+    	case driveBack3: 
+    		System.out.println("driveBack3 called");
+        	encoder = (Robot.drive.getRightEncoder()+Robot.drive.getLeftEncoder())/2.0;
+            target = -50;
+            drivePower = drivePID.pidCalculate(target, encoder);
+            if(!slewCut) {
+            	drivePower = slewRate.rateCalculate(drivePower);
+            }
+            if(Math.abs(encoder)>Math.abs(target)/2.0) {
+            	slewCut = true;
+            }
+            System.out.println("Right Encoder: "+Robot.drive.getRightEncoder()+"\nLeft Encoder: "+Robot.drive.getLeftEncoder());
+            System.out.println("\nEncoder: " + encoder + "\nGyro: " + Robot.drive.getAngle() + "\nAngle: " + angle);
+
+            leftPower = drivePower - gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
+            leftPower = ((leftPower > 0) ? 1 : -1) * Math.min(1, Math.abs(leftPower));
+
+            rightPower = drivePower + gyroDrivePID.pidCalculate(initAngle, Robot.drive.getAngle());
+            rightPower = ((rightPower > 0) ? 1 : -1) * Math.min(1, Math.abs(rightPower));
+
+            Robot.drive.AutoDrive(leftPower, rightPower);
+            if (Math.abs(encoder - target) < 3.0)
+            {
+                repsAtTarget++;
+                if (repsAtTarget >= 15)
+                {
+                	autonFinished = true;
+                }
+            }
+            else
+            {
+                repsAtTarget = 0;
+            }
+            break;
         }
     }
 
