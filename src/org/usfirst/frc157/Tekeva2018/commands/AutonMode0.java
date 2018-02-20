@@ -214,6 +214,7 @@ public class AutonMode0 extends Command
             	}
             	break;
         }
+    	
     }
 
     public double xCalculate(double a, double b, double distance) {
